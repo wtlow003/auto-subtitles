@@ -288,41 +288,41 @@ echo -e "\033[33m========== Set Parameters ==========\033[0m"
 if [ -z "$VIDEO_URL" ]; then
     echo "Using default YouTube video URL: $DEFAULT_VIDEO_URL"
     VIDEO_URL="$DEFAULT_VIDEO_URL"
-    printf ">>> Otherwise, usage: %s [-u <youtube_video_url>]", "$0"
+    printf ">>> Otherwise, usage: %s [-u <youtube_video_url>]\n", "$0"
 fi
 if [ -z "$BACKEND" ]; then
     echo "Using default backend: $BACKEND"
     BACKEND="$DEFAULT_BACKEND"
-    printf ">>> Otherwise, usage: %s -u <youtube_video_url> [-b <backend>]" "$0"
+    printf ">>> Otherwise, usage: %s -u <youtube_video_url> [-b <backend>]\n" "$0"
 fi
 if [ -z "$OUTPUT_PATH" ]; then
     echo "Using default output path: $DEFAULT_OUTPUT_PATH"
     OUTPUT_PATH="$DEFAULT_OUTPUT_PATH"
-    printf ">>> Otherwise, usage: %s -u <youtube_video_url> [-o <output_path>]" "$0"
+    printf ">>> Otherwise, usage: %s -u <youtube_video_url> [-o <output_path>]\n" "$0"
 fi
 if [ -z "$MODEL" ]; then
     echo "Using default model name: $DEFAULT_MODEL"
     MODEL="$DEFAULT_MODEL"
-    printf ">>> Otherwise, usage: %s -u <youtube_video_url> [-m <model_name>]" "$0"
+    printf ">>> Otherwise, usage: %s -u <youtube_video_url> [-m <model_name>]\n" "$0"
 fi
 if [ -z "$THREADS" ]; then
     echo "Using default number of threads: $DEFAULT_THREADS"
     THREADS="$DEFAULT_THREADS"
-    printf ">>> Otherwise, usage: %s -u <youtube_video_url> [-t <threads>]" "$0"
+    printf ">>> Otherwise, usage: %s -u <youtube_video_url> [-t <threads>]\n" "$0"
 fi
 if [ -z "$WORKERS" ]; then
     echo "Using default number of workers: $DEFAULT_WORKERS"
     WORKERS="$DEFAULT_WORKERS"
-    printf ">>> Otherwise, usage: %s -u <youtube_video_url> [-w <workers>]" "$0"
+    printf ">>> Otherwise, usage: %s -u <youtube_video_url> [-w <workers>]\n" "$0"
 fi
 if [ -z "$MAX_LENGTH" ]; then
     echo "Using default maximum length: $DEFAULT_MAX_LENGTH"
     MAX_LENGTH="$DEFAULT_MAX_LENGTH"
-    printf ">>> Otherwise, usage: %s-u <youtube_video_url> [-ml <max_length>]" "$0"
+    printf ">>> Otherwise, usage: %s-u <youtube_video_url> [-ml <max_length>]\n" "$0"
 fi
-if [ -z "$WHISPER_BIN_PATH" ]; then
+if [ -z "$WHISPER_BIN_PATH" ] && [ "$BACKEND" = "whisper-cpp" ]; then
     echo "Please set the WHISPER_BIN_PATH option to the path of the whisper-cpp binary."
-    printf ">>> Usage: %s -u <youtube_video_url> [-wbp <whisper_bin_path>]" "$0"
+    printf ">>> Usage: %s -u <youtube_video_url> [-wbp <whisper_bin_path>]\n" "$0"
     exit 1
 fi
 
