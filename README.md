@@ -166,6 +166,9 @@ The above command generate the workflow with the following settings:
 5. Limit the maximum length of each transcription segment to max [`47`](https://www.capitalcaptions.com/services/subtitle-services-2/capital-captions-standard-subtitling-guidelines/) characters.
 6. Translating from (`--tf`) **English (eng_Latn)** to (`--tt`) **Chinese (zho_Hans)**, using the `FLORES-200` Code found [here](https://github.com/facebookresearch/flores/blob/main/flores200/README.md#languages-in-flores-200).
 
+The following is the generated video:
+<video src="https://github.com/wtlow003/auto-subtitles/assets/61908161/5787ab5a-da3f-40de-ab11-f898caa1ac2a"></video>
+
 ### Detailed Options
 
 To check all the avaliable options, use the `--help` flag:
