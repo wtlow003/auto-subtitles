@@ -322,7 +322,7 @@ if [ -z "$MAX_LENGTH" ]; then
 fi
 if [ -z "$WHISPER_BIN_PATH" ] && [ "$BACKEND" = "whisper-cpp" ]; then
     echo "Please set the WHISPER_BIN_PATH option to the path of the whisper-cpp binary."
-    printf ">>> Usage: %s -u <youtube_video_url> [-wbp <whisper_bin_path>]\n" "$0"
+    printf ">>> Usage: %s -u <youtube_video_url> -b whisper-cpp [-wbp <whisper_bin_path>]\n" "$0"
     exit 1
 fi
 
