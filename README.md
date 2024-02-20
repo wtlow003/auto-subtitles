@@ -134,7 +134,7 @@ The above command generate the **transcription** + **subtitling** workflow with 
 4. Limit the maximum length of each transcription segment to max [`47`](https://www.capitalcaptions.com/services/subtitle-services-2/capital-captions-standard-subtitling-guidelines/) characters.
 
 The following is the generated video:
-<video src="https://github.com/wtlow003/auto-subtitles/blob/master/assets/ollama-transcribed.mp4"></video>
+<video src="https://github.com/wtlow003/auto-subtitles/assets/61908161/52f3cc5d-d130-4b3b-87ba-acea39a25349"></video>
 
 ### Detailed Options
 
