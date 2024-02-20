@@ -27,8 +27,12 @@ While far from perfect – **Auto-Subtitles** still provides automatically gener
 
 Currently, the auto-subtitles workflow supports the following variant(s) of the Whisper model:
 
-1. [@ggerganov/whisper.cpp](https://github.com/ggerganov/whisper.cpp): Provides the `whisper-cpp` backend for the workflow. Port of OpenAI's Whisper model in C/C++. Generate fast transcription on local setup (esp. MacOS) via MPS.
-2. [@jianfch/stable-ts](https://github.com/jianfch/stable-ts): Provides the `faster-whisper` backend for the workflow, while producing more reliable and accurate timestamps for transcription. Functionalities also includes VAD filters to more accurately detect voice activities.
+1. [@ggerganov/whisper.cpp](https://github.com/ggerganov/whisper.cpp):
+   - Provides the `whisper-cpp` backend for the workflow.
+   - Port of OpenAI's Whisper model in C/C++. Generate fast transcription on local setup (esp. MacOS) via MPS.
+2. [@jianfch/stable-ts](https://github.com/jianfch/stable-ts):
+   - Provides the `faster-whisper` backend for the workflow, while producing more reliable and accurate timestamps for transcription
+   - Functionalities also includes VAD filters to more accurately detect voice activities.
 
 ### Translation
 
@@ -109,28 +113,32 @@ pip install -r requirements.txt
 
 ## Usage
 
-To run the automatic subtitling process, simply run the following command:
+To run the automatic subtitling process for the following [video](https://www.youtube.com/watch?v=fnvZJU5Fj3Q), simply run the following command (refer [here](#detailed-options) for advanced options):
 
-```bash
+```shell
 chmod +x ./workflow.sh
 
-/workflow.sh -u https://www.youtube.com/watch\?v\=Wsoccw9bf4c \
+/workflow.sh -u https://www.youtube.com/watch?v=fnvZJU5Fj3Q \
     -b faster-whisper \
     -t 8 \
     -m medium \
     -ml 47
 ```
 
-The above commands does the following:
+The above command generate the **transcription** + **subtitling** workflow with the following settings:
 
 1. Using the `faster-whisper` backend
+   - More reliable and accurate timestamps as opposed to `whisper.cpp`, using `VAD` etc.
 2. Running on `8` threads for increased performance
 3. Using the [`openai/whisper-medium`](https://huggingface.co/openai/whisper-medium) multi-lingual model
-4. Cap the maximum length of each transcription segment to max [`47`](https://www.capitalcaptions.com/services/subtitle-services-2/capital-captions-standard-subtitling-guidelines/) characters.
+4. Limit the maximum length of each transcription segment to max [`47`](https://www.capitalcaptions.com/services/subtitle-services-2/capital-captions-standard-subtitling-guidelines/) characters.
+
+The following is the generated video:
+<video src="https://github.com/wtlow003/auto-subtitles/blob/master/assets/ollama-transcribed.mp4"></video>
 
 ### Detailed Options
 
-To check all the avaiable options, use the `--help` flag:
+To check all the avaliable options, use the `--help` flag:
 
 ```shell
 ./workflow.sh --help
