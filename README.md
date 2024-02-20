@@ -48,7 +48,7 @@ In **Auto-Subtitles**, we also included the functionality to translate transcrip
 
 We did not opt to use the translation features directly via the Whisper model due to observed performance issue and hallucination in the generated transcript.
 
-To support a more efficient and reliable translation process, we used Meta AI's group of models - [No Language Left Behind (NLLB)](https://ai.meta.com/research/no-language-left-behind/) for translation post-transcription via `whisper-cpp` or `faster-whisper`.
+To support a more efficient and reliable translation process, we used Meta AI's group of models - [No Language Left Behind (NLLB)](https://ai.meta.com/research/no-language-left-behind/) for translation post-transcription.
 
 Currently, the following models are supported:
 
