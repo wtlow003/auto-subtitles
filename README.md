@@ -1,4 +1,10 @@
-<h1 align="center">Auto-Subtitles</h1>
+<h1 align="center">📺 Auto-Subtitles</h1>
+
+<p align="center">
+   <img src="https://img.shields.io/github/license/wtlow003/auto-subtitles" alt="license">
+      <img src="https://img.shields.io/github/last-commit/wtlow003/auto-subtitles">
+      <img src="https://img.shields.io/badge/python-3.9.10-orange? alt="python version">
+</p>
 
 <p align="center">
     <a href=#about>About</a> •
@@ -171,7 +177,7 @@ The following is the generated video:
 
 ### Detailed Options
 
-To check all the avaliable options, use the `--help` flag:
+To check all the available options, use the `--help` flag:
 
 ```shell
 ./workflow.sh --help
@@ -189,3 +195,5 @@ Options:
   -tf, --translate-from <translate_from>              Translate from language
   -tt, --translate-to <translate_to>                  Translate to language
 ```
+
+## [WIP] Performance
