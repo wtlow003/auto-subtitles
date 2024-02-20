@@ -22,7 +22,7 @@ if ! command -v yt-dlp &>/dev/null || ! command -v ffmpeg &>/dev/null; then
     exit 1
 fi
 
-print_run_parameters() {
+function print_run_parameters() {
     printf "\n\033[33m========== Run Parameters ==========\033[0m\n"
     echo "URL: $VIDEO_URL"
     echo "OUTPUT PATH: $OUTPUT_PATH"
@@ -35,7 +35,7 @@ print_run_parameters() {
     echo -e "\033[33m====================================\033[0m"
 }
 
-create_output_folder() {
+function create_output_folder() {
     # Create or check existence of the output folder.
     # Args:
     #   $1: Output folder path
@@ -52,7 +52,7 @@ create_output_folder() {
     fi
 }
 
-download_and_convert() {
+function download_and_convert() {
     # Download a YouTube video, convert it to WAV, and save the result.
     # Args:
     #   $1: Video URL
@@ -66,8 +66,8 @@ download_and_convert() {
     title=$(yt-dlp --get-title "$video_url")
     cleaned_title=$(echo "$title" | tr -cs '[:alnum:]' '-' | sed 's/-$//' | tr '[:upper:]' '[:lower:]')
     metadata=$(yt-dlp --get-filename \
-        -f "$filter_flag" \
-        -o "%(width)s %(height)s" \
+            -f "$filter_flag" \
+            -o "%(width)s %(height)s" \
         "$video_url")
 
     # extract video width and height from metadata
@@ -92,7 +92,7 @@ download_and_convert() {
     echo "Conversion complete. WAV file is saved as $saved_dir.wav"
 }
 
-generate_transcript() {
+function generate_transcript() {
     # Generate a transcript using a specified API.
     # Args: None
     local backend="$1"
@@ -104,13 +104,13 @@ generate_transcript() {
 
         # calling whisper-cpp endpoint
         # curl 127.0.0.1:8080/inference \
-        #     -H "Content-Type: multipart/form-data" \
-        #     -F file="@$saved_dir/audio.wav" \
-        #     -F temperature="0.0" \
-        #     -F temperature_inc="0.2" \
-        #     -F response_format="srt" \
-        #     -F max_length=10 \
-        #     -o "$saved_dir/subs.srt"
+            #     -H "Content-Type: multipart/form-data" \
+            #     -F file="@$saved_dir/audio.wav" \
+            #     -F temperature="0.0" \
+            #     -F temperature_inc="0.2" \
+            #     -F response_format="srt" \
+            #     -F max_length=10 \
+            #     -o "$saved_dir/subs.srt"
 
         # cd ~/code/whisper.cpp || echo "whisper.cpp path not found"
         "$WHISPER_BIN_PATH/main" -m "$WHISPER_BIN_PATH/models/ggml-$MODEL.bin" \
@@ -154,7 +154,7 @@ generate_transcript() {
     echo -e "\033[32mTranscript generated. SRT file is saved in $saved_dir.\033[32m"
 }
 
-adjust_subtitle_size() {
+function adjust_subtitle_size() {
     # Adjust subtitle size based on the current video width and height.
     # Args:
     #   $1: Current video width
@@ -176,7 +176,7 @@ adjust_subtitle_size() {
     echo "$result"
 }
 
-overlay_subtitles() {
+function overlay_subtitles() {
     # Overlay subtitles on the original video with adjusted font size.
     # Args: None
 
@@ -187,18 +187,18 @@ overlay_subtitles() {
 
     # overwrite existing subbed.mp4 even if it exists
     echo y |
-        ffmpeg -i "$saved_dir/original.mp4" \
-            -vf "subtitles=$subs:force_style='FontSize=$font_size,FontName=$DEFAULT_FONT,OutlineColour=&H40000000,BorderStyle=3'" \
-            "$saved_dir/subbed.mp4" \
-            -crf 1 \
-            -c:a copy \
-            -threads 8
+    ffmpeg -i "$saved_dir/original.mp4" \
+        -vf "subtitles=$subs:force_style='FontSize=$font_size,FontName=$DEFAULT_FONT,OutlineColour=&H40000000,BorderStyle=3'" \
+        "$saved_dir/subbed.mp4" \
+        -crf 1 \
+        -c:a copy \
+        -threads 8
 
     echo "Subtitles overlayed."
 }
 
 # ref: http://docopt.org/
-help() {
+function help() {
     echo "Usage: $0 [-u <youtube_video_url>] [options]"
     echo "Options:"
     echo "  -u, --url <youtube_video_url>                       YouTube video URL"
@@ -222,64 +222,64 @@ fi
 
 while [[ $# -gt 0 ]]; do
     case $1 in
-    -u | --url)
-        VIDEO_URL="$2"
-        shift
-        shift
-        ;;
-    -o | --output-path)
-        OUTPUT_PATH="$2"
-        shift
-        shift
-        ;;
-    -b | --backend)
-        case "$2" in
-        "whisper-cpp" | "faster-whisper")
-            BACKEND="$2"
+        -u | --url)
+            VIDEO_URL="$2"
             shift
             shift
             ;;
-        *)
-            echo "Invalid value for -b. Use either 'whisper-cpp' or 'faster-whisper'." >&2
-            exit 1
+        -o | --output-path)
+            OUTPUT_PATH="$2"
+            shift
+            shift
             ;;
-        esac
-        ;;
-    -wbp | --whisper-bin-path)
-        WHISPER_BIN_PATH="$2"
-        shift
-        shift
-        ;;
-    -ml | --max-length)
-        MAX_LENGTH="$2"
-        shift
-        shift
-        ;;
-    -t | --threads)
-        THREADS="$2"
-        shift
-        shift
-        ;;
-    -w | --workers)
-        WORKERS="$2"
-        shift
-        shift
-        ;;
-    -m | --model)
-        MODEL="$2"
-        shift
-        shift
-        ;;
-    -tf | --translate-from)
-        TRANSLATE_FROM="$2"
-        shift
-        shift
-        ;;
-    -tt | --translate-to)
-        TRANSLATE_TO="$2"
-        shift
-        shift
-        ;;
+        -b | --backend)
+            case "$2" in
+                "whisper-cpp" | "faster-whisper")
+                    BACKEND="$2"
+                    shift
+                    shift
+                    ;;
+                *)
+                    echo "Invalid value for -b. Use either 'whisper-cpp' or 'faster-whisper'." >&2
+                    exit 1
+                    ;;
+            esac
+            ;;
+        -wbp | --whisper-bin-path)
+            WHISPER_BIN_PATH="$2"
+            shift
+            shift
+            ;;
+        -ml | --max-length)
+            MAX_LENGTH="$2"
+            shift
+            shift
+            ;;
+        -t | --threads)
+            THREADS="$2"
+            shift
+            shift
+            ;;
+        -w | --workers)
+            WORKERS="$2"
+            shift
+            shift
+            ;;
+        -m | --model)
+            MODEL="$2"
+            shift
+            shift
+            ;;
+        -tf | --translate-from)
+            TRANSLATE_FROM="$2"
+            shift
+            shift
+            ;;
+        -tt | --translate-to)
+            TRANSLATE_TO="$2"
+            shift
+            shift
+            ;;
     esac
 done
 
