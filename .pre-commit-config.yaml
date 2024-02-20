@@ -12,10 +12,20 @@ repos:
       # Run the linter.
       - id: ruff
         args: [--fix]
+        verbose: true
       # Run the formatter.
       - id: ruff-format
+        verbose: true
   # - repo: https://github.com/pycqa/isort
   #   rev: 5.13.2
   #   hooks:
   #     - id: isort
   #       name: isort (python)
+  - repo: https://github.com/lovesegfault/beautysh
+    rev: v6.2.1
+    hooks:
+      - id: beautysh
+        entry: beautysh
+        files: \.(sh|bash)$
+        args: [--indent-size=4, --force-function-style=fnpar]
+        verbose: true
