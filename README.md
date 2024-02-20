@@ -69,40 +69,40 @@ For this project, you can setup the requirements/dependencies and environment ei
 
 1. [ffmpeg](https://ffmpeg.org/download.html#build-mac)
 
-Alternatively, referenced from [@openai/whisper](https://github.com/openai/whisper):
+   > Alternatively, referenced from [@openai/whisper](https://github.com/openai/whisper):
 
-```shell
-# on Ubuntu or Debian
-sudo apt update && sudo apt install ffmpeg
+   ```shell
+   # on Ubuntu or Debian
+   sudo apt update && sudo apt install ffmpeg
 
-# on Arch Linux
-sudo pacman -S ffmpeg
+   # on Arch Linux
+   sudo pacman -S ffmpeg
 
-# on MacOS using Homebrew (https://brew.sh/)
-brew install ffmpeg
+   # on MacOS using Homebrew (https://brew.sh/)
+   brew install ffmpeg
 
-# on Windows using Chocolatey (https://chocolatey.org/)
-choco install ffmpeg
+   # on Windows using Chocolatey (https://chocolatey.org/)
+   choco install ffmpeg
 
-# on Windows using Scoop (https://scoop.sh/)
-scoop install ffmpeg
-```
+   # on Windows using Scoop (https://scoop.sh/)
+   scoop install ffmpeg
+   ```
 
 2. [yt-dlp](https://github.com/yt-dlp/yt-dlp)
 3. [Python 3.9](https://www.python.org/downloads/)
 4. [whisper.cpp](https://www.bing.com/search?q=whisper.cpp&cvid=c6357be7905a4543b299efb7b63bda65&gs_lcrp=EgZjaHJvbWUqBggAEEUYOzIGCAAQRRg7MgYIARBFGDsyBggCEEUYOTIGCAMQRRg8MgYIBBBFGDwyBggFEEUYPDIGCAYQRRhA0gEIMTE0OGowajSoAgCwAgA&FORM=ANAB01&PC=U531)
 
-```shell
-# build the binary for usage
-git clone https://github.com/ggerganov/whisper.cpp.git
+   ```shell
+   # build the binary for usage
+   git clone https://github.com/ggerganov/whisper.cpp.git
 
-cd whisper.cpp
-make
-```
+   cd whisper.cpp
+   make
+   ```
 
-- Please refer to the actual [repo](https://github.com/ggerganov/whisper.cpp.git) for all other build arguments relevant to your local setup for better performance.
+   - Please refer to the actual [repo](https://github.com/ggerganov/whisper.cpp.git) for all other build arguments relevant to your local setup for better performance.
 
-#### Python Dependencies (`faster-whisper`)
+#### Python Dependencies
 
 Install the dependencies in `requirements.txt` into a virtual environment (`virtualenv`):
 
@@ -172,7 +172,7 @@ The above command generate the workflow with the following settings:
 3. Running on `8` threads for increased performance
 4. Using the [`openai/whisper-medium`](https://huggingface.co/openai/whisper-medium) multi-lingual model
 5. Limit the maximum length of each transcription segment to max [`47`](https://www.capitalcaptions.com/services/subtitle-services-2/capital-captions-standard-subtitling-guidelines/) characters.
-6. Translating from (`--tf`) **English (eng_Latn)** to (`--tt`) **Chinese (zho_Hans)**, using the `FLORES-200` Code found [here](https://github.com/facebookresearch/flores/blob/main/flores200/README.md#languages-in-flores-200).
+6. Translating from (`-tf`) **English (eng_Latn)** to (`-tt`) **Chinese (zho_Hans)**, using the `FLORES-200` Code found [here](https://github.com/facebookresearch/flores/blob/main/flores200/README.md#languages-in-flores-200).
 
 The following is the generated video:
 <video src="https://github.com/wtlow003/auto-subtitles/assets/61908161/5787ab5a-da3f-40de-ab11-f898caa1ac2a"></video>
