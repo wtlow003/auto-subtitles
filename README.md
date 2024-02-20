@@ -13,6 +13,8 @@
     <a href=#usage>Usage</a>
 </p>
 
+![banner](/assets/banner-dall-e.jpeg)
+
 ## About
 
 The **Auto-Subtitles** is a CLI tool that generates and embeds subtitles for any YouTube video automatically. Other core functionality includes the ability to generate translated transcripts prior to the output process.
