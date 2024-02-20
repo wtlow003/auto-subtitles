@@ -113,19 +113,21 @@ pip install -r requirements.txt
 
 ## Usage
 
+### Transcribing
+
 To run the automatic subtitling process for the following [video](https://www.youtube.com/watch?v=fnvZJU5Fj3Q), simply run the following command (refer [here](#detailed-options) for advanced options):
 
 ```shell
 chmod +x ./workflow.sh
 
-/workflow.sh -u https://www.youtube.com/watch?v=fnvZJU5Fj3Q \
+./workflow.sh -u https://www.youtube.com/watch?v=fnvZJU5Fj3Q \
     -b faster-whisper \
     -t 8 \
     -m medium \
     -ml 47
 ```
 
-The above command generate the **transcription** + **subtitling** workflow with the following settings:
+The above command generate the workflow with the following settings:
 
 1. Using the `faster-whisper` backend
    - More reliable and accurate timestamps as opposed to `whisper.cpp`, using `VAD` etc.
@@ -135,6 +137,34 @@ The above command generate the **transcription** + **subtitling** workflow with 
 
 The following is the generated video:
 <video src="https://github.com/wtlow003/auto-subtitles/assets/61908161/52f3cc5d-d130-4b3b-87ba-acea39a25349"></video>
+
+### Transcribing + Translating
+
+To run the automatic subtitling process for the following [video](https://www.youtube.com/watch?v=DtLJjNyl57M) and generate `Chinese (zh)` subtitles:
+
+```shell
+chmod +x ./workflow.sh
+
+./workflow.sh -u https://www.youtube.com/watch?v=DtLJjNyl57M \
+    -b whisper-cpp \
+    -wbp ~/code/whisper.cpp \
+    -t 8 \
+    -m medium \
+    -ml 47 \
+    -tf "eng_Latn" \
+    -tt "zho_Hans"
+```
+
+The above command generate the workflow with the following settings:
+
+1. Using the `whisper-cpp` backend
+   - Faster transcription process compared to `whisper.cpp`.
+   - However, may produce degraded output video with inaccurate timestamps or subtitles appearing early with no noticeable voice activity.
+2. Specifying directory path to the pre-built binary of `whisper.cpp` to be used for transcription.
+3. Running on `8` threads for increased performance
+4. Using the [`openai/whisper-medium`](https://huggingface.co/openai/whisper-medium) multi-lingual model
+5. Limit the maximum length of each transcription segment to max [`47`](https://www.capitalcaptions.com/services/subtitle-services-2/capital-captions-standard-subtitling-guidelines/) characters.
+6. Translating from (`--tf`) **English (eng_Latn)** to (`--tt`) **Chinese (zho_Hans)**, using the `FLORES-200` Code found [here](https://github.com/facebookresearch/flores/blob/main/flores200/README.md#languages-in-flores-200).
 
 ### Detailed Options
 
