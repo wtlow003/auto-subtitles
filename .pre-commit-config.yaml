@@ -29,3 +29,9 @@ repos:
         files: \.(sh|bash)$
         args: [--indent-size=4, --force-function-style=fnpar]
         verbose: true
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v3.1.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]
+        args: [--strict, --force-scope, feat, fix, chore, test, custom]
