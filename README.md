@@ -117,7 +117,23 @@ pip install --upgrade pip setuptools wheel
 pip install -r requirements.txt
 ```
 
-### [WIP] Docker Setup
+### Docker Setup
+
+To run the workflow using docker:
+
+```bash
+# build the image
+docker buildx build -t auto-subs .
+
+# run the image
+docker run \
+   --volume <absolute-path>:/app/output
+   auto-subs \
+   -u https://www.youtube.com/watch?v=fjNrdpNdZ0o \
+   -b whisper-cpp \
+   -t 8 \
+   -ml 47
+```
 
 ## Usage
 
