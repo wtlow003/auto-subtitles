@@ -124,15 +124,6 @@ To run the workflow using docker:
 ```bash
 # build the image
 docker buildx build -t auto-subs .
-
-# run the image
-docker run \
-   --volume <absolute-path>:/app/output
-   auto-subs \
-   -u https://www.youtube.com/watch?v=fjNrdpNdZ0o \
-   -b whisper-cpp \
-   -t 8 \
-   -ml 47
 ```
 
 ## Usage
@@ -140,6 +131,8 @@ docker run \
 ### Transcribing
 
 To run the automatic subtitling process for the following [video](https://www.youtube.com/watch?v=fnvZJU5Fj3Q), simply run the following command (refer [here](#detailed-options) for advanced options):
+
+#### Local
 
 ```shell
 chmod +x ./workflow.sh
@@ -149,6 +142,19 @@ chmod +x ./workflow.sh
     -t 8 \
     -m medium \
     -ml 47
+```
+
+#### Docker
+
+```bash
+# run the image
+docker run \
+   --volume <absolute-path>:/app/output
+   auto-subs \
+   -u https://www.youtube.com/watch?v=fnvZJU5Fj3Q \
+   -b faster-whisper \
+   -t 8 \
+   -ml 47
 ```
 
 The above command generate the workflow with the following settings:
@@ -166,6 +172,8 @@ The following is the generated video:
 
 To run the automatic subtitling process for the following [video](https://www.youtube.com/watch?v=DtLJjNyl57M) and generate `Chinese (zh)` subtitles:
 
+#### Local
+
 ```shell
 chmod +x ./workflow.sh
 
@@ -177,6 +185,21 @@ chmod +x ./workflow.sh
     -ml 47 \
     -tf "eng_Latn" \
     -tt "zho_Hans"
+```
+
+#### Docker
+
+#### Docker
+
+```bash
+# run the image
+docker run \
+   --volume <absolute-path>:/app/output
+   auto-subs \
+   -u https://www.youtube.com/watch?v=DtLJjNyl57M \
+   -b whisper-cpp \
+   -t 8 \
+   -ml 47
 ```
 
 The above command generate the workflow with the following settings:
