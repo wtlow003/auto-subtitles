@@ -197,7 +197,9 @@ docker run \
    -u https://www.youtube.com/watch?v=DtLJjNyl57M \
    -b whisper-cpp \
    -t 8 \
-   -ml 47
+   -ml 47 \
+   -tf "eng_Latn" \
+   -tt "zho_Hans"
 ```
 
 The above command generate the workflow with the following settings:
