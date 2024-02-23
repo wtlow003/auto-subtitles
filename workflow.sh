@@ -4,6 +4,7 @@
 DEFAULT_VIDEO_URL="https://www.youtube.com/watch\?v\=ucd63nIZZ60"
 DEFAULT_OUTPUT_PATH="output"
 DEFAULT_BACKEND="whisper-cpp"
+DEFAULT_WHISPER_BIN_PATH="whisper.cpp"
 DEFAULT_MODEL="medium"
 DEFAULT_MAX_LENGTH=47
 DEFAULT_THREADS=4
@@ -294,6 +295,11 @@ if [ -z "$BACKEND" ]; then
     echo "Using default backend: $BACKEND"
     BACKEND="$DEFAULT_BACKEND"
     printf ">>> Otherwise, usage: %s -u <youtube_video_url> [-b <backend>]\n" "$0"
+fi
+if [ -z "$WHISER_BIN_PATH" ]; then
+    echo "Using default whisper_bin_path: $DEFAULT_WHISPER_BIN_PATH"
+    WHISPER_BIN_PATH="$DEFAULT_WHISPER_BIN_PATH"
+    printf ">>> Otherwise, usage: %s -u <youtube_video_url> [-b whisper-cpp] [-wbp <whisper_bin_path>]\n" "$0"
 fi
 if [ -z "$OUTPUT_PATH" ]; then
     echo "Using default output path: $DEFAULT_OUTPUT_PATH"
