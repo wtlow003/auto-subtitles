@@ -189,8 +189,6 @@ chmod +x ./workflow.sh
 
 #### Docker
 
-#### Docker
-
 ```bash
 # run the image
 docker run \
