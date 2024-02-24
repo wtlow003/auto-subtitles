@@ -238,3 +238,38 @@ Options:
 ```
 
 ## [WIP] Performance
+
+> For `mps` device, I am running performance testing on a M2 Max 12/30 (cpu/gpu) cores MacBook Pro (14-inch, 2023).
+
+### Transcription
+
+| Model  | Backend        | Device | Threads | Time Taken |
+| ------ | -------------- | ------ | ------- | ---------- |
+| base   | whisper-cpp    | cpu    | 4       | ~          |
+| base   | whisper-cpp    | mps    | 4       | ~          |
+| base   | faster-whisper | cpu    | 4       | ~          |
+| base   | faster-whisper | mps    | 4       | ~          |
+| medium | whisper-cpp    | cpu    | 4       | ~          |
+| medium | whisper-cpp    | mps    | 4       | ~          |
+| medium | faster-whisper | cpu    | 4       | ~          |
+| medium | faster-whisper | mps    | 4       | ~          |
+
+### Transcription + Translation
+
+| Model  | Backend        | Device | Threads | Time Taken |
+| ------ | -------------- | ------ | ------- | ---------- |
+| base   | whisper-cpp    | cpu    | 4       | ~          |
+| base   | whisper-cpp    | mps    | 4       | ~          |
+| base   | faster-whisper | cpu    | 4       | ~          |
+| base   | faster-whisper | mps    | 4       | ~          |
+| medium | whisper-cpp    | cpu    | 4       | ~          |
+| medium | whisper-cpp    | mps    | 4       | ~          |
+| medium | faster-whisper | cpu    | 4       | ~          |
+| medium | faster-whisper | mps    | 4       | ~          |
+
+## Known Issues
+
+1. Korean subtitles are not supported at the moment.
+   - **Details**: The default font used to embed subtitles is `Arial Unicode MS`, which does not provide glpyh for Korean characters.
+   - **Fix**: Add alternate fonts for Korean characters
+   - **Status**: ❇️ `In Progress`
