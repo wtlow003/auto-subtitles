@@ -36,13 +36,15 @@ RUN apt-get update && \
     ffmpeg \
     gcc \
     python3.9 \
-    python3-pip \
-    libstdc++6 && \
-    # software-properties-common && \
-    # add-apt-repository ppa:tomtomtom/yt-dlp && \
-    # apt-get install -y \
-    # yt-dlp && \
+    python3-pip && \
     rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
+
+
+# add new fonts from /fonts to /usr/local/share/fonts
+COPY fonts /usr/local/share/fonts
+# refresh font cache
+RUN fc-cache -f -v
+
 # install python dependencies
 COPY requirements.txt .
 RUN pip3 install --upgrade pip setuptools wheel
