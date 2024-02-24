@@ -277,4 +277,4 @@ Options:
 
 ## Changelog
 
-1. **[24/02/2024]**: Include `./fonts` folder to host downloaded fonts to be copied into the Docker container. Once copied, users can specified their desired fonts with the `-f` or `--font` flag.
+1. 🗓️ **[24/02/2024]**: Include `./fonts` folder to host downloaded fonts to be copied into the Docker container. Once copied, users can specified their desired fonts with the `-f` or `--font` flag.
