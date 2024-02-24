@@ -189,7 +189,7 @@ function overlay_subtitles() {
     # overwrite existing subbed.mp4 even if it exists
     echo y |
     ffmpeg -i "$saved_dir/original.mp4" \
-        -vf "subtitles=$subs:force_style='FontSize=$font_size,FontName=$DEFAULT_FONT,OutlineColour=&H40000000,BorderStyle=3'" \
+        -vf "subtitles=$subs:force_style='FontSize=$font_size,FontName=$FONT,OutlineColour=&H40000000,BorderStyle=3'" \
         "$saved_dir/subbed.mp4" \
         -crf 1 \
         -c:a copy \
@@ -212,6 +212,7 @@ function help() {
     echo "  -m, --model <model>                                 Model name to use"
     echo "  -tf, --translate-from <translate_from>              Translate from language"
     echo "  -tt, --translate-to <translate_to>                  Translate to language"
+    echo "  -f, --font <font>                                   Font to use for subtitles"
     exit 1
 }
 
@@ -281,6 +282,11 @@ while [[ $# -gt 0 ]]; do
             shift
             shift
             ;;
+        -f | --font)
+            FONT="$2"
+            shift
+            shift
+            ;;
     esac
 done
 
@@ -296,7 +302,7 @@ if [ -z "$BACKEND" ]; then
     BACKEND="$DEFAULT_BACKEND"
     printf ">>> Otherwise, usage: %s -u <youtube_video_url> [-b <backend>]\n" "$0"
 fi
-if [ -z "$WHISER_BIN_PATH" ]; then
+if [ -z "$WHISPER_BIN_PATH" ]; then
     echo "Using default whisper_bin_path: $DEFAULT_WHISPER_BIN_PATH"
     WHISPER_BIN_PATH="$DEFAULT_WHISPER_BIN_PATH"
     printf ">>> Otherwise, usage: %s -u <youtube_video_url> [-b whisper-cpp] [-wbp <whisper_bin_path>]\n" "$0"
@@ -330,6 +336,11 @@ if [ -z "$WHISPER_BIN_PATH" ] && [ "$BACKEND" = "whisper-cpp" ]; then
     echo "Please set the WHISPER_BIN_PATH option to the path of the whisper-cpp binary."
     printf ">>> Usage: %s -u <youtube_video_url> -b whisper-cpp [-wbp <whisper_bin_path>]\n" "$0"
     exit 1
+fi
+if [ -z "$FONT" ]; then
+    echo "Using default font: $DEFAULT_FONT"
+    FONT="$DEFAULT_FONT"
+    printf ">>> Otherwise, usage: %s -u <youtube_video_url> [-f <font>]\n" "$0"
 fi
 
 # invoke the functions with the provided YouTube video URL and output path

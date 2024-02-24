@@ -235,6 +235,7 @@ Options:
   -m, --model <model>                                 Model name to use
   -tf, --translate-from <translate_from>              Translate from language
   -tt, --translate-to <translate_to>                  Translate to language
+  -f, --font <font>                                   Font to use for subtitles
 ```
 
 ## [WIP] Performance
@@ -271,5 +272,9 @@ Options:
 
 1. Korean subtitles are not supported at the moment.
    - **Details**: The default font used to embed subtitles is `Arial Unicode MS`, which does not provide glpyh for Korean characters.
-   - **Fix**: Add alternate fonts for Korean characters
-   - **Status**: ❇️ `In Progress`
+   - **Potential Solution**: Add alternate fonts for Korean characters
+   - **Status**: ✅ `Done`
+
+## Changelog
+
+1. **[24/02/2024]**: Include `./fonts` folder to host downloaded fonts to be copied into the Docker container. Once copied, users can specified their desired fonts with the `-f` or `--font` flag.
