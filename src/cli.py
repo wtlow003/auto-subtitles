@@ -30,6 +30,20 @@ def faster_whisper_cli():
     return args
 
 
+def insanely_fast_whisper_cli():
+    parser = argparse.ArgumentParser(description="Transcribe audio to text")
+    parser.add_argument("--audio_path", type=str, help="Path to audio file")
+    parser.add_argument("--output_path", type=str, help="Path to output file")
+    parser.add_argument("--model", type=str, default="medium", help="Model to use")
+    parser.add_argument("--device", type=str, default="cuda", help="Device to use")
+    parser.add_argument(
+        "--max_length", type=int, default=47, help="Max characters per line"
+    )
+    args = parser.parse_args()
+
+    return args
+
+
 def translator_cli():
     """_summary_
 

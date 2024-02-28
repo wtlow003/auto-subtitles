@@ -9,6 +9,7 @@ DEFAULT_MODEL="medium"
 DEFAULT_MAX_LENGTH=47
 DEFAULT_THREADS=4
 DEFAULT_WORKERS=1
+DEFAULT_DEVICE="cpu"
 VAD_THRESHOLD=0.2
 WL_FLAG=false
 
@@ -141,6 +142,17 @@ function generate_transcript() {
         fi
 
         eval "$cmd"
+
+    elif [ "$backend" = "insanely-fast-whisper" ]; then
+        echo "Using insanely-fast-whisper backend..."
+
+        # TODO: add insanely-fast-whisper backend implementation
+        python3 src/insanely-fast-whisper.py \
+            --audio_path "$saved_dir/audio.wav" \
+            --output_path "$saved_dir/subs.srt" \
+            --model "$MODEL" \
+            --device "$DEVICE" \
+            --max_length "$MAX_LENGTH"
     fi
 
     if [ -n "$TRANSLATE_FROM" ] && [ -n "$TRANSLATE_TO" ]; then
@@ -204,7 +216,7 @@ function help() {
     echo "Options:"
     echo "  -u, --url <youtube_video_url>                       YouTube video URL"
     echo "  -o, --output-path <output_path>                     Output path"
-    echo "  -b, --backend <backend>                             Backend to use: whisper-cpp or faster-whisper"
+    echo "  -b, --backend <backend>                             Backend to use: whisper-cpp, faster-whisper, or insanely-fast-whisper."
     echo "  -wbp, --whisper-bin-path <whisper_bin_path>         Path to whisper-cpp binary. Required if using [--backend whisper-cpp]."
     echo "  -ml, --max-length <max_length>                      Maximum length of the generated transcript"
     echo "  -t, --threads <threads>                             Number of threads to use"
@@ -236,13 +248,13 @@ while [[ $# -gt 0 ]]; do
             ;;
         -b | --backend)
             case "$2" in
-                "whisper-cpp" | "faster-whisper")
+                "whisper-cpp" | "faster-whisper" | "insanely-fast-whisper")
                     BACKEND="$2"
                     shift
                     shift
                     ;;
                 *)
-                    echo "Invalid value for -b. Use either 'whisper-cpp' or 'faster-whisper'." >&2
+                    echo "Invalid value for -b. Use either 'whisper-cpp', 'faster-whisper', or 'insanely-fast-whisper'." >&2
                     exit 1
                     ;;
             esac
@@ -287,6 +299,11 @@ while [[ $# -gt 0 ]]; do
             shift
             shift
             ;;
+        -d | --device )
+            DEVICE="$2"
+            shift
+            shift
+            ;;
     esac
 done
 
@@ -316,6 +333,11 @@ if [ -z "$MODEL" ]; then
     echo "Using default model name: $DEFAULT_MODEL"
     MODEL="$DEFAULT_MODEL"
     printf ">>> Otherwise, usage: %s -u <youtube_video_url> [-m <model_name>]\n" "$0"
+fi
+if [ -z "$DEVICE" ]; then
+    echo "Using default device: $DEFAULT_DEVICE"
+    DEVICE="$DEFAULT_DEVICE"
+    printf ">>> Otherwise, usage: %s -u <youtube_video_url> [-d <device>]\n" "$0"
 fi
 if [ -z "$THREADS" ]; then
     echo "Using default number of threads: $DEFAULT_THREADS"
