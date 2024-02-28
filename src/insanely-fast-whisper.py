@@ -1,5 +1,5 @@
 from datetime import timedelta
-from typing import Dict, Tuple, Union
+from typing import Dict, List, Tuple, Union
 
 import cli
 import srt
@@ -43,12 +43,68 @@ class SRTFormatter:
         """
         start: float = chunk["timestamp"][0]  # type: ignore
         end: float = chunk["timestamp"][1]  # type: ignore
-        print(start, end, chunk["text"])  # type: ignore
         start_formatted, end_formatted = (
             cls.format_seconds(start),
             cls.format_seconds(end),
         )  # type: ignore
         return start_formatted, end_formatted, chunk["text"]  # type: ignore
+
+
+def split_by_length(
+    chunks: List[Dict[str, Union[Tuple[float, float], str]]], max_length: int
+) -> List[Dict[str, Union[Tuple[float, float], str]]]:
+    """Given a list of chunks, split them into segments of max_length
+
+    Args:
+        chunks (List[Dict[str, Union[Tuple[float, float], str]]]): List of chunks
+        max_length (int): Maximum length of each segment
+
+    Returns:
+        List[Dict[str, Union[Tuple[float, float], str]]]: List of segments
+    """
+    segments = []
+    idx = 0
+
+    while idx < len(chunks):
+        curr_text = []
+        curr_length = 0
+        start_timestamp = 0.0 if idx == 0 else chunks[idx - 1]["timestamp"][1]
+        end_timestamp = chunks[idx]["timestamp"][1]
+
+        while idx < len(chunks) and curr_length + len(chunks[idx]["text"]) < max_length:
+            text = chunks[idx]["text"].strip()  # type: ignore
+            if text.startswith("-"):
+                last_word = curr_text.pop()
+                curr_text.append("".join([last_word, text]))
+            else:
+                curr_text.append(text)
+            curr_length += len(text)
+            end_timestamp = chunks[idx]["timestamp"][1]
+            idx += 1
+
+        # check if next word is part of a hyphenated word
+        # outside of max_length
+        if idx < len(chunks) and chunks[idx]["text"].startswith("-"):  # type: ignore
+            last_word = curr_text.pop()
+            text = chunks[idx]["text"].strip()  # type: ignore
+            curr_text.append("".join([last_word, text]))
+            end_timestamp = chunks[idx]["timestamp"][1]
+            idx += 1
+
+        # check if this is the last word
+        if idx == len(chunks) - 1:
+            curr_text.append(chunks[idx]["text"].strip())  # type: ignore
+            end_timestamp = chunks[idx]["timestamp"][1]
+            idx += 1
+
+        segments.append(
+            {
+                "text": " ".join(curr_text),
+                "timestamp": (start_timestamp, end_timestamp),
+            }
+        )
+
+    return segments
 
 
 def main():
@@ -87,19 +143,22 @@ def main():
             total=None,
         )
 
+        # ref: https://github.com/huggingface/transformers/issues/22053
+        # for potential last tiemestamp issue
         outputs = pipe(
             args.audio_path,
-            chunk_length_s=args.max_length,
+            chunk_length_s=30,
             # ref: https://github.com/Vaibhavs10/insanely-fast-whisper?tab=readme-ov-file#frequently-asked-questions
-            batch_size=4 if args.device == "mps" else 24,
-            return_timestamps=True,
-            generate_kwargs={"task": "transcribe", "num_beams": 5},
+            batch_size=8 if args.device == "mps" else 24,
+            return_timestamps="word",
+            generate_kwargs={"task": "transcribe", "num_beams": 1},
         )
 
-        print(outputs)
+    segments = split_by_length(outputs["chunks"], args.max_length)  # type: ignore
+
     # formatting timestamps and save for srt
     transcripts = []
-    for idx, output in enumerate(outputs["chunks"]):  # type: ignore
+    for idx, output in enumerate(segments):  # type: ignore
         start, end, text = SRTFormatter.format_chunk(output)  # type: ignore
         transcripts.append(Subtitle(idx + 1, start, end, text.strip()))  # type: ignore
 
