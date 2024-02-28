@@ -1,6 +1,5 @@
-import stable_whisper
-
 import cli
+import stable_whisper
 
 
 def main():
