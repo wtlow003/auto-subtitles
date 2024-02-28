@@ -37,10 +37,16 @@ Currently, the auto-subtitles workflow supports the following variant(s) of the 
 
 1. [@ggerganov/whisper.cpp](https://github.com/ggerganov/whisper.cpp):
    - Provides the `whisper-cpp` backend for the workflow.
-   - Port of OpenAI's Whisper model in C/C++. Generate fast transcription on local setup (esp. MacOS) via MPS.
+   - Port of OpenAI's Whisper model in C/C++. Generate fast transcription on local setup (esp. MacOS via `MPS`).
 2. [@jianfch/stable-ts](https://github.com/jianfch/stable-ts):
-   - Provides the `faster-whisper` backend for the workflow, while producing more reliable and accurate timestamps for transcription
+   - Provides the [`faster-whisper`](https://github.com/SYSTRAN/faster-whisper) backend for the workflow, while producing more reliable and accurate timestamps for transcription.
    - Functionalities also includes VAD filters to more accurately detect voice activities.
+3. [@Vaibhavs10/insanely-fast-whisper](https://github.com/Vaibhavs10/insanely-fast-whisper) [`Experimental`]:
+   - Leverages Flash Attention 2 (or Scaled Dot Product Attention) and batching to improve transcription speed.
+   - Works for only for gpu setup (`cuda` or `mps`) at the moment.
+   - Supports only `large`, `large-v2`, and `large-v3` models.
+   - No default support for max segment length – currently using self-implemented heuristics for segment length adjustment.
+
 
 ### Translation
 
@@ -88,9 +94,8 @@ For this project, you can setup the requirements/dependencies and environment ei
    scoop install ffmpeg
    ```
 
-2. [yt-dlp](https://github.com/yt-dlp/yt-dlp)
-3. [Python 3.9](https://www.python.org/downloads/)
-4. [whisper.cpp](https://www.bing.com/search?q=whisper.cpp&cvid=c6357be7905a4543b299efb7b63bda65&gs_lcrp=EgZjaHJvbWUqBggAEEUYOzIGCAAQRRg7MgYIARBFGDsyBggCEEUYOTIGCAMQRRg8MgYIBBBFGDwyBggFEEUYPDIGCAYQRRhA0gEIMTE0OGowajSoAgCwAgA&FORM=ANAB01&PC=U531)
+2. [Python 3.9](https://www.python.org/downloads/)
+3. [whisper.cpp](https://www.bing.com/search?q=whisper.cpp&cvid=c6357be7905a4543b299efb7b63bda65&gs_lcrp=EgZjaHJvbWUqBggAEEUYOzIGCAAQRRg7MgYIARBFGDsyBggCEEUYOTIGCAMQRRg8MgYIBBBFGDwyBggFEEUYPDIGCAYQRRhA0gEIMTE0OGowajSoAgCwAgA&FORM=ANAB01&PC=U531)
 
    ```shell
    # build the binary for usage
