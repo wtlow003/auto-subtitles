@@ -146,8 +146,7 @@ function generate_transcript() {
     elif [ "$backend" = "insanely-fast-whisper" ]; then
         echo "Using insanely-fast-whisper backend..."
 
-        # TODO: add insanely-fast-whisper backend implementation
-        python3 src/insanely-fast-whisper.py \
+        PYTORCH_ENABLE_MPS_FALLBACK=1 python3 src/insanely-fast-whisper.py \
             --audio_path "$saved_dir/audio.wav" \
             --output_path "$saved_dir/subs.srt" \
             --model "$MODEL" \
