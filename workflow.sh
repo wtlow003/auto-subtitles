@@ -122,6 +122,7 @@ function generate_transcript() {
             -of "$saved_dir/subs" \
             -t "$THREADS" \
             -p "$WORKERS" \
+            -l "auto" \
             --split-on-word
 
     elif [ "$backend" = "faster-whisper" ]; then
