@@ -210,7 +210,7 @@ docker run \
 The above command generate the workflow with the following settings:
 
 1. Using the `whisper-cpp` backend
-   - Faster transcription process compared to `whisper.cpp`.
+   - Faster transcription process compared to `faster-whisper`.
    - However, may produce degraded output video with inaccurate timestamps or subtitles appearing early with no noticeable voice activity.
 2. Specifying directory path to the pre-built binary of `whisper.cpp` to be used for transcription.
 3. Running on `8` threads for increased performance
